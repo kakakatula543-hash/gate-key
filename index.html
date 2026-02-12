@@ -2,64 +2,83 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Nhận Key</title>
+  <title>Gate Key - 1 Người 1 Key</title>
   <style>
     body {
-      background: #0f0f0f;
+      background: #111;
       color: #00ffcc;
       font-family: Arial, sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      margin: 0;
     }
     .box {
+      border: 2px solid #00ffcc;
+      padding: 25px 35px;
+      border-radius: 10px;
       text-align: center;
-      background: #111;
-      padding: 30px;
-      border-radius: 12px;
       box-shadow: 0 0 20px #00ffcc;
     }
     button {
-      padding: 12px 25px;
-      font-size: 18px;
       background: #00ffcc;
-      color: #000;
       border: none;
-      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 6px;
       cursor: pointer;
+      margin-top: 10px;
+    }
+    .key {
       margin-top: 15px;
-    }
-    button:hover {
-      background: #00ccaa;
-    }
-    #key {
-      margin-top: 20px;
-      font-size: 20px;
-      font-weight: bold;
+      font-size: 18px;
+      display: none;
     }
   </style>
 </head>
 <body>
 
-  <div class="box">
-    <h2>🔑 Nhấn để nhận key</h2>
-    <button id="btn" onclick="taoKey()">Nhận key</button>
-    <div id="key"></div>
+<div class="box">
+  <h2>🔑 Nhận Key</h2>
+  <button id="btn">Vượt link</button>
+  <div class="key" id="keyBox">
+    Key của bạn: <b id="key"></b>
   </div>
+</div>
 
-  <script>
-    function taoKey() {
-  const kyTu = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  let key = "kpd_";
-  for (let i = 0; i < 10; i++) {
-    key += kyTu.charAt(Math.floor(Math.random() * kyTu.length));
-  }
-  document.getElementById("key").innerText = "Key của bạn: " + key;
-  document.getElementById("btn").disabled = true;
+<script>
+  const yeulink = "https://yeulink.com/kephandienkey";
+
+  const params = new URLSearchParams(window.location.search);
+  const done = params.get("done");
+
+  function randomKey() {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let key = "kpd_";
+    for (let i = 0; i < 8; i++) {
+      key += chars.charAt(Math.floor(Math.random() * chars.length));
     }
-  </script>
+    return key;
+  }
+
+  const savedKey = localStorage.getItem("user_key");
+
+  if (savedKey) {
+    document.getElementById("btn").style.display = "none";
+    document.getElementById("keyBox").style.display = "block";
+    document.getElementById("key").innerText = savedKey;
+  } else if (done === "1") {
+    const newKey = randomKey();
+    localStorage.setItem("user_key", newKey);
+    document.getElementById("btn").style.display = "none";
+    document.getElementById("keyBox").style.display = "block";
+    document.getElementById("key").innerText = newKey;
+  } else {
+    document.getElementById("btn").onclick = () => {
+      window.location.href = yeulink;
+    };
+  }
+</script>
 
 </body>
 </html>
