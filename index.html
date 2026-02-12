@@ -1,20 +1,64 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Gate Key</title>
+  <title>Nhận Key</title>
+  <style>
+    body {
+      background: #0f0f0f;
+      color: #00ffcc;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .box {
+      text-align: center;
+      background: #111;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px #00ffcc;
+    }
+    button {
+      padding: 12px 25px;
+      font-size: 18px;
+      background: #00ffcc;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    button:hover {
+      background: #00ccaa;
+    }
+    #key {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  </style>
 </head>
-<body style="text-align:center;font-family:sans-serif;">
-  <h2>Nhấn để nhận key</h2>
-  <button onclick="getKey()">Nhận key</button>
-  <p id="key"></p>
+<body>
+
+  <div class="box">
+    <h2>🔑 Nhấn để nhận key</h2>
+    <button onclick="taoKey()">Nhận key</button>
+    <div id="key"></div>
+  </div>
 
   <script>
-    function getKey(){
-      let keys = ["KEY-123", "KEY-456", "KEY-789"];
-      let random = keys[Math.floor(Math.random()*keys.length)];
-      document.getElementById("key").innerText = "Key của bạn: " + random;
+    function taoKey() {
+      const kyTu = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      let key = "KEY-";
+      for (let i = 0; i < 6; i++) {
+        key += kyTu.charAt(Math.floor(Math.random() * kyTu.length));
+      }
+      document.getElementById("key").innerText = "Key của bạn: " + key;
     }
   </script>
+
 </body>
 </html>
