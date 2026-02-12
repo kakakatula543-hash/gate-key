@@ -2,10 +2,10 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Gate Key - 1 Người 1 Key</title>
+  <title>Nhận key</title>
   <style>
     body {
-      background: #111;
+      background: #0b0b0b;
       color: #00ffcc;
       font-family: Arial, sans-serif;
       display: flex;
@@ -15,68 +15,50 @@
     }
     .box {
       border: 2px solid #00ffcc;
-      padding: 25px 35px;
-      border-radius: 10px;
+      padding: 20px;
       text-align: center;
-      box-shadow: 0 0 20px #00ffcc;
+      border-radius: 10px;
+      box-shadow: 0 0 15px #00ffcc;
     }
     button {
+      padding: 8px 16px;
+      margin-top: 10px;
       background: #00ffcc;
       border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 6px;
+      border-radius: 5px;
       cursor: pointer;
-      margin-top: 10px;
-    }
-    .key {
-      margin-top: 15px;
-      font-size: 18px;
-      display: none;
     }
   </style>
 </head>
 <body>
 
-<div class="box">
-  <h2>🔑 Nhận Key</h2>
-  <button id="btn">Vượt link</button>
-  <div class="key" id="keyBox">
-    Key của bạn: <b id="key"></b>
-  </div>
+<div class="box" id="content">
+  <h3>🔒 Vui lòng vượt link để nhận key</h3>
+  <button onclick="goLink()">Vượt link</button>
 </div>
 
 <script>
-  const yeulink = "https://yeulink.com/kephandienkey";
-
   const params = new URLSearchParams(window.location.search);
   const done = params.get("done");
 
-  function randomKey() {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  function genKey() {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     let key = "kpd_";
-    for (let i = 0; i < 8; i++) {
-      key += chars.charAt(Math.floor(Math.random() * chars.length));
+    for (let i = 0; i < 6; i++) {
+      key += chars[Math.floor(Math.random() * chars.length)];
     }
     return key;
   }
 
-  const savedKey = localStorage.getItem("user_key");
+  if (done === "1") {
+    document.getElementById("content").innerHTML = `
+      <h3>✅ Key của bạn</h3>
+      <p><b>${genKey()}</b></p>
+    `;
+  }
 
-  if (savedKey) {
-    document.getElementById("btn").style.display = "none";
-    document.getElementById("keyBox").style.display = "block";
-    document.getElementById("key").innerText = savedKey;
-  } else if (done === "1") {
-    const newKey = randomKey();
-    localStorage.setItem("user_key", newKey);
-    document.getElementById("btn").style.display = "none";
-    document.getElementById("keyBox").style.display = "block";
-    document.getElementById("key").innerText = newKey;
-  } else {
-    document.getElementById("btn").onclick = () => {
-      window.location.href = yeulink;
-    };
+  function goLink() {
+    window.location.href = "https://yeulink.com/kephandienkey";
   }
 </script>
 
