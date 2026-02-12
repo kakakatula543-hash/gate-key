@@ -2,51 +2,92 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Nhận key</title>
+<title>Gate Key</title>
 <style>
+@keyframes glow {
+  0% { box-shadow: 0 0 10px #00ffcc; }
+  50% { box-shadow: 0 0 25px #00ffcc; }
+  100% { box-shadow: 0 0 10px #00ffcc; }
+}
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .85; }
+}
+
 body{
-  background:#0b0b0b;
+  background:#050505;
   color:#00ffcc;
-  font-family:Arial;
+  font-family: Consolas, monospace;
   display:flex;
   justify-content:center;
   align-items:center;
   height:100vh;
 }
+
 .box{
+  width:340px;
   border:2px solid #00ffcc;
   padding:25px;
-  border-radius:10px;
+  border-radius:12px;
   text-align:center;
-  box-shadow:0 0 15px #00ffcc;
-  width:320px;
+  animation: glow 2s infinite;
+  background: radial-gradient(circle at top, #0e1f1c, #020202);
 }
+
+h3{
+  letter-spacing:1px;
+  animation: flicker 2s infinite;
+}
+
 button{
-  padding:10px;
-  margin-top:10px;
   width:100%;
-  background:#00ffcc;
+  padding:12px;
+  margin-top:10px;
+  background: linear-gradient(90deg,#00ffcc,#00ffaa);
   border:none;
-  border-radius:6px;
+  border-radius:8px;
+  font-size:16px;
+  font-weight:bold;
   cursor:pointer;
-  font-size:15px;
 }
+
 .link-btn{
   display:block;
-  margin-top:8px;
-  padding:8px;
-  border-radius:6px;
+  margin-top:10px;
+  padding:10px;
+  border-radius:8px;
   text-decoration:none;
   font-weight:bold;
+  letter-spacing:0.5px;
 }
-.zalo{ background:#0068ff; color:white; }
-.youtube{ background:red; color:white; }
-.tiktok{ background:black; color:white; }
+
+.zalo{
+  background:#0068ff;
+  color:white;
+  box-shadow:0 0 10px #0068ff;
+}
+.youtube{
+  background:#ff0000;
+  color:white;
+  box-shadow:0 0 10px red;
+}
+.tiktok{
+  background:black;
+  color:white;
+  box-shadow:0 0 10px #00ffcc;
+}
+
+.key{
+  font-size:20px;
+  margin:10px 0;
+  color:#7CFF00;
+  text-shadow:0 0 10px #7CFF00;
+}
 </style>
 </head>
 <body>
 
-<div class="box" id="box">Đang tải...</div>
+<div class="box" id="box">Loading...</div>
 
 <script>
 const box = document.getElementById("box");
@@ -57,38 +98,37 @@ function genKey(){
   return "kpd_" + Math.random().toString(36).substring(2,8).toUpperCase();
 }
 
-let key = localStorage.getItem("user_key");
-
-function showSocial(){
+function socials(){
   return `
-    <hr>
-    <a class="link-btn zalo" href="https://zalo.me/g/xxxxx" target="_blank">🔵 Vào nhóm Zalo</a>
-    <a class="link-btn youtube" href="https://youtube.com/@tenkenh" target="_blank">🔴 Đăng ký YouTube</a>
-    <a class="link-btn tiktok" href="https://tiktok.com/@tentiktok" target="_blank">⚫ Follow TikTok</a>
+    <a class="link-btn zalo" href="https://zalo.me/g/xxxxx" target="_blank">🔵 Nhóm Zalo</a>
+    <a class="link-btn youtube" href="https://youtube.com/@tenkenh" target="_blank">🔴 YouTube</a>
+    <a class="link-btn tiktok" href="https://tiktok.com/@tentiktok" target="_blank">⚫ TikTok</a>
   `;
 }
 
+let key = localStorage.getItem("user_key");
+
 if(key){
   box.innerHTML = `
-    <h3>🔑 Key của bạn</h3>
-    <b>${key}</b>
-    <p>(1 người = 1 key)</p>
-    ${showSocial()}
+    <h3>ACCESS GRANTED</h3>
+    <div class="key">${key}</div>
+    ${socials()}
   `;
 }
 else if(done === "1"){
   key = genKey();
   localStorage.setItem("user_key", key);
   box.innerHTML = `
-    <h3>✅ Nhận key thành công</h3>
-    <b>${key}</b>
-    ${showSocial()}
+    <h3>KEY GENERATED</h3>
+    <div class="key">${key}</div>
+    ${socials()}
   `;
 }
 else{
   box.innerHTML = `
-    <h3>🔒 Vượt link để nhận key</h3>
-    <button onclick="go()">Vượt link</button>
+    <h3>LOCKED SYSTEM</h3>
+    <button onclick="go()">VƯỢT LINK</button>
+    ${socials()}
   `;
 }
 
