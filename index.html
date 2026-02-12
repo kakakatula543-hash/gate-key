@@ -2,181 +2,143 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Gate Key</title>
-
+<title>GET KEY 24H</title>
 <style>
-@keyframes bgMove {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 100% 50%; }
-}
-
-@keyframes blink {
-  0%,100%{opacity:1}
-  50%{opacity:0}
-}
-
+*{box-sizing:border-box;font-family:Consolas,monospace}
 body{
-  margin:0;
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-family:Consolas, monospace;
-  background: linear-gradient(-45deg,#001a16,#002b25,#000);
-  background-size:400% 400%;
-  animation:bgMove 10s linear infinite alternate;
-  color:#00ffcc;
+  margin:0;height:100vh;display:flex;justify-content:center;align-items:center;
+  background:radial-gradient(circle at top,#003b32,#000);color:#0f0
 }
-
 .box{
-  width:92%;
-  max-width:420px;
-  padding:35px;
-  border-radius:20px;
-  text-align:center;
-  background:rgba(0,0,0,0.75);
-  border:2px solid #00ffcc;
-  box-shadow:0 0 25px #00ffcc;
+  background:#000;padding:25px 30px;border-radius:12px;text-align:center;
+  width:340px;box-shadow:0 0 30px #00ffcc;border:1px solid #00ffcc
 }
-
-h3{
-  letter-spacing:2px;
-  min-height:28px;
+.title{
+  font-size:14px;color:#00ffcc;margin-bottom:15px;
+  white-space:nowrap;overflow:hidden;border-right:2px solid #00ffcc;
+  animation:typing 3s steps(40,end),blink .7s infinite
 }
+@keyframes typing{from{width:0}to{width:100%}}
+@keyframes blink{50%{border-color:transparent}}
 
-.cursor{
-  display:inline-block;
-  animation:blink 1s infinite;
-}
-
-button{
-  width:100%;
-  padding:15px;
-  margin-top:15px;
-  font-size:17px;
-  font-weight:bold;
-  border:none;
-  border-radius:12px;
-  cursor:pointer;
-  color:#000;
-  background:linear-gradient(90deg,#00ffcc,#00ffaa,#00ffcc);
-  background-size:200% 200%;
-  transition:0.3s;
-}
-
-button:hover{
-  background-position:100% 0;
-  transform:scale(1.05);
-}
-
-.link-btn{
-  display:block;
-  margin-top:12px;
-  padding:12px;
-  border-radius:12px;
-  text-decoration:none;
-  font-weight:bold;
-  transition:0.3s;
-}
-
-.link-btn:hover{
-  transform:scale(1.05);
-}
-
-.zalo{
-  background:#0068ff;
-  color:white;
-  box-shadow:0 0 15px #0068ff;
-}
-
-.youtube{
-  background:#ff0000;
-  color:white;
-  box-shadow:0 0 15px red;
-}
-
-.tiktok{
-  background:black;
-  color:white;
-  border:1px solid #00ffcc;
-  box-shadow:0 0 15px #00ffcc;
+@keyframes glow{
+  0%{text-shadow:0 0 10px #7CFF00}
+  50%{text-shadow:0 0 25px #00ffcc,0 0 45px #7CFF00}
+  100%{text-shadow:0 0 10px #7CFF00}
 }
 
 .key{
-  font-size:24px;
-  margin:15px 0;
-  color:#7CFF00;
-  text-shadow:0 0 15px #7CFF00;
+  font-size:44px;font-weight:bold;margin:20px 0;letter-spacing:4px;
+  color:#7CFF00;animation:glow 1.2s infinite;display:none
 }
+
+.timer{
+  color:#00ffcc;
+  font-size:13px;
+  margin-bottom:10px;
+}
+
+.btn{
+  width:100%;padding:10px;margin-top:10px;border:none;border-radius:8px;
+  font-size:14px;font-weight:bold;cursor:pointer;color:#fff
+}
+.get{background:linear-gradient(90deg,#00ffcc,#00ffaa);color:#000}
+.copy{background:#444;display:none}
+.zalo{background:#0068ff}
+.yt{background:#ff0000}
+.tt{background:#111}
+.btn:hover{filter:brightness(1.2)}
 </style>
 </head>
 
 <body>
-
 <div class="box">
-  <h3 id="title"></h3>
-  <div id="content"></div>
+  <div class="title">GET KEY – 24H SYSTEM 🍜</div>
+
+  <div id="key" class="key"></div>
+  <div id="timer" class="timer"></div>
+
+  <button class="btn get" onclick="getKey()">GET KEY 🔑</button>
+  <button class="btn copy" id="copyBtn" onclick="copyKey()">📋 COPY KEY</button>
+
+  <button class="btn zalo" onclick="go('https://zalo.me/g/cocmne792')">Nhóm Zalo</button>
+  <button class="btn yt" onclick="go('https://youtube.com/@ghetnhanvatchinh?si=ZfPgvO2sKD8dL1i1')">YouTube</button>
+  <button class="btn tt" onclick="go('https://tiktok.com/@ghetnhanvatchinhkk')">TikTok</button>
 </div>
 
 <script>
-const titleText = "GET KEY – UNG HO TUI GOI MI DE 🍜";
-const titleEl = document.getElementById("title");
+const STORAGE_KEY="USER_KEY_24H";
+const STORAGE_EXPIRE="USER_KEY_EXPIRE";
+const KEY_DURATION=24*60*60*1000; // 24 giờ
 
-let i = 0;
-function typeEffect(){
-  if(i < titleText.length){
-    titleEl.innerHTML = titleText.substring(0,i+1) + '<span class="cursor">_</span>';
-    i++;
-    setTimeout(typeEffect, 60);
-  } else {
-    titleEl.innerHTML = titleText + '<span class="cursor">_</span>';
+function randomKey(){
+  const chars="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let k="kpd_";
+  for(let i=0;i<6;i++)
+    k+=chars[Math.floor(Math.random()*chars.length)];
+  return k;
+}
+
+function getKey(){
+  let key=localStorage.getItem(STORAGE_KEY);
+  let expire=localStorage.getItem(STORAGE_EXPIRE);
+
+  if(!key || !expire || Date.now()>expire){
+    key=randomKey();
+    expire=Date.now()+KEY_DURATION;
+    localStorage.setItem(STORAGE_KEY,key);
+    localStorage.setItem(STORAGE_EXPIRE,expire);
   }
-}
-typeEffect();
 
-const content = document.getElementById("content");
-const params = new URLSearchParams(location.search);
-const done = params.get("done");
-
-function genKey(){
-  return "kpd_" + Math.random().toString(36).substring(2,8).toUpperCase();
+  showKey(key,expire);
 }
 
-function socials(){
-  return `
-    <a class="link-btn zalo" href="https://zalo.me/g/cocmne792" target="_blank">🔵 Nhóm Zalo</a>
-    <a class="link-btn youtube" href="https://youtube.com/@ghetnhanvatchinh?si=ZfPgvO2sKD8dL1i1" target="_blank">🔴 YouTube</a>
-    <a class="link-btn tiktok" href="https://tiktok.com/@ghetnhanvatchinhkk" target="_blank">⚫ TikTok</a>
-  `;
+function showKey(key,expire){
+  document.getElementById("key").innerText=key;
+  document.getElementById("key").style.display="block";
+  document.getElementById("copyBtn").style.display="block";
+  updateTimer(expire);
 }
 
-let key = localStorage.getItem("user_key");
+function updateTimer(expire){
+  const timerEl=document.getElementById("timer");
+  const interval=setInterval(()=>{
+    let remaining=expire-Date.now();
 
-if(key){
-  content.innerHTML = `
-    <div class="key">${key}</div>
-    ${socials()}
-  `;
-}
-else if(done === "1"){
-  key = genKey();
-  localStorage.setItem("user_key", key);
-  content.innerHTML = `
-    <div class="key">${key}</div>
-    ${socials()}
-  `;
-}
-else{
-  content.innerHTML = `
-    <button onclick="go()">GET KEY 🔑</button>
-    ${socials()}
-  `;
+    if(remaining<=0){
+      clearInterval(interval);
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(STORAGE_EXPIRE);
+      timerEl.innerText="⛔ Key đã hết hạn!";
+      document.getElementById("key").style.display="none";
+      document.getElementById("copyBtn").style.display="none";
+      return;
+    }
+
+    let h=Math.floor(remaining/1000/60/60);
+    let m=Math.floor((remaining/1000/60)%60);
+    let s=Math.floor((remaining/1000)%60);
+
+    timerEl.innerText="⏳ Còn lại: "+h+"h "+m+"m "+s+"s";
+  },1000);
 }
 
-function go(){
-  window.location.href = "https://yeulink.com/kephandienkey";
+function copyKey(){
+  const text=document.getElementById("key").innerText;
+  navigator.clipboard.writeText(text);
+  alert("✔ Đã copy key: "+text);
+}
+
+function go(url){
+  window.open(url,"_blank");
+}
+
+/* tự check khi vào */
+const saved=localStorage.getItem(STORAGE_KEY);
+const expire=localStorage.getItem(STORAGE_EXPIRE);
+if(saved && expire && Date.now()<expire){
+  showKey(saved,expire);
 }
 </script>
-
 </body>
 </html>
