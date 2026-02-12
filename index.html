@@ -2,65 +2,10 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Nhận key</title>
-  <style>
-    body {
-      background: #0b0b0b;
-      color: #00ffcc;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .box {
-      border: 2px solid #00ffcc;
-      padding: 20px;
-      text-align: center;
-      border-radius: 10px;
-      box-shadow: 0 0 15px #00ffcc;
-    }
-    button {
-      padding: 8px 16px;
-      margin-top: 10px;
-      background: #00ffcc;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-  </style>
+  <title>Test GitHub Pages</title>
 </head>
-<body>
-
-<div class="box" id="content">
-  <h3>🔒 Vui lòng vượt link để nhận key</h3>
-  <button onclick="goLink()">Vượt link</button>
-</div>
-
-<script>
-  const params = new URLSearchParams(window.location.search);
-  const done = params.get("done");
-
-  function genKey() {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let key = "kpd_";
-    for (let i = 0; i < 6; i++) {
-      key += chars[Math.floor(Math.random() * chars.length)];
-    }
-    return key;
-  }
-
-  if (done === "1") {
-    document.getElementById("content").innerHTML = `
-      <h3>✅ Key của bạn</h3>
-      <p><b>${genKey()}</b></p>
-    `;
-  }
-
-  function goLink() {
-    window.location.href = "https://yeulink.com/kephandienkey";
-  }
-</script>
-
+<body style="background:#111;color:#0f0;text-align:center;padding-top:50px">
+  <h2>✅ Web còn sống</h2>
+  <p>Nếu thấy dòng này là GitHub Pages OK</p>
 </body>
 </html>
