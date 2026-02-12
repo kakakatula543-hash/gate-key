@@ -3,88 +3,90 @@
 <head>
 <meta charset="UTF-8">
 <title>Gate Key</title>
+
 <style>
 @keyframes glow {
-  0% { box-shadow: 0 0 10px #00ffcc; }
-  50% { box-shadow: 0 0 25px #00ffcc; }
-  100% { box-shadow: 0 0 10px #00ffcc; }
-}
-@keyframes flicker {
-  0%, 100% { opacity: 1; }
-  50% { opacity: .85; }
+  0% { box-shadow: 0 0 15px #00ffcc; }
+  50% { box-shadow: 0 0 35px #00ffcc; }
+  100% { box-shadow: 0 0 15px #00ffcc; }
 }
 
 body{
-  background:#050505;
-  color:#00ffcc;
-  font-family: Consolas, monospace;
+  margin:0;
+  height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  height:100vh;
+  font-family: Consolas, monospace;
+  color:#00ffcc;
+
+  /* NỀN CHẤT */
+  background:
+    radial-gradient(circle at top, #0f3b35, #020202 60%),
+    linear-gradient(135deg, #001f1a, #000);
 }
 
 .box{
-  width:340px;
-  border:2px solid #00ffcc;
-  padding:25px;
-  border-radius:12px;
+  width:90%;
+  max-width:420px;
+  padding:30px;
+  border-radius:18px;
   text-align:center;
+
+  background:
+    linear-gradient(180deg, #0c2f2a, #020202);
+  border:2px solid #00ffcc;
   animation: glow 2s infinite;
-  background: radial-gradient(circle at top, #0e1f1c, #020202);
 }
 
 h3{
-  letter-spacing:1px;
-  animation: flicker 2s infinite;
+  margin-bottom:20px;
+  letter-spacing:2px;
 }
 
 button{
   width:100%;
-  padding:12px;
-  margin-top:10px;
-  background: linear-gradient(90deg,#00ffcc,#00ffaa);
-  border:none;
-  border-radius:8px;
-  font-size:16px;
+  padding:14px;
+  font-size:17px;
   font-weight:bold;
+  border-radius:10px;
+  border:none;
   cursor:pointer;
+  background:linear-gradient(90deg,#00ffcc,#00ffaa);
 }
 
 .link-btn{
   display:block;
-  margin-top:10px;
-  padding:10px;
-  border-radius:8px;
+  margin-top:12px;
+  padding:12px;
+  border-radius:10px;
   text-decoration:none;
   font-weight:bold;
-  letter-spacing:0.5px;
 }
 
 .zalo{
   background:#0068ff;
   color:white;
-  box-shadow:0 0 10px #0068ff;
 }
 .youtube{
   background:#ff0000;
   color:white;
-  box-shadow:0 0 10px red;
 }
 .tiktok{
-  background:black;
+  background:#000;
   color:white;
-  box-shadow:0 0 10px #00ffcc;
+  border:1px solid #00ffcc;
 }
 
 .key{
-  font-size:20px;
-  margin:10px 0;
+  font-size:22px;
+  margin:15px 0;
   color:#7CFF00;
   text-shadow:0 0 10px #7CFF00;
 }
 </style>
 </head>
+
 <body>
 
 <div class="box" id="box">Loading...</div>
