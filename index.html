@@ -1,11 +1,92 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Test GitHub Pages</title>
+<meta charset="UTF-8">
+<title>Gate Key</title>
+<style>
+body{
+  background:#0b0b0b;
+  color:#00ffcc;
+  font-family:Arial, sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+.box{
+  border:2px solid #00ffcc;
+  padding:25px;
+  border-radius:10px;
+  text-align:center;
+  box-shadow:0 0 15px #00ffcc;
+}
+button{
+  padding:10px 20px;
+  background:#00ffcc;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:16px;
+}
+</style>
 </head>
-<body style="background:#111;color:#0f0;text-align:center;padding-top:50px">
-  <h2>✅ Web còn sống</h2>
-  <p>Nếu thấy dòng này là GitHub Pages OK</p>
+<body>
+
+<div class="box" id="box">Đang tải...</div>
+
+<script>
+/* ===== FIX 404 THIẾU DẤU / ===== */
+if (
+  location.pathname === "/gate-key" ||
+  location.pathname === "/gate-key/index.html"
+) {
+  location.replace("/gate-key/" + location.search);
+}
+
+/* ===== LOGIC GATE KEY ===== */
+const box = document.getElementById("box");
+const params = new URLSearchParams(location.search);
+const done = params.get("done");
+
+function genKey(){
+  return "kpd_" + Math.random().toString(36).substring(2,8).toUpperCase();
+}
+
+const savedKey = localStorage.getItem("user_key");
+const token = localStorage.getItem("passed_link");
+
+/* ĐÃ CÓ KEY → HIỆN LUÔN */
+if(savedKey){
+  box.innerHTML = `
+    <h3>🔑 Key của bạn</h3>
+    <b>${savedKey}</b>
+    <p>(1 người = 1 key)</p>
+  `;
+}
+
+/* VỪA VƯỢT LINK XONG */
+else if(done === "1" && token){
+  const newKey = genKey();
+  localStorage.setItem("user_key", newKey);
+  box.innerHTML = `
+    <h3>✅ Nhận key thành công</h3>
+    <b>${newKey}</b>
+  `;
+}
+
+/* CHƯA VƯỢT LINK */
+else{
+  box.innerHTML = `
+    <h3>🔒 Vượt link để nhận key</h3>
+    <button onclick="goLink()">Vượt link</button>
+  `;
+}
+
+function goLink(){
+  localStorage.setItem("passed_link","ok");
+  window.location.href = "https://yeulink.com/kephandienkey";
+}
+</script>
+
 </body>
 </html>
