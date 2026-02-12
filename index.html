@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Gate Key</title>
+</head>
+<body style="text-align:center;font-family:sans-serif;">
+  <h2>Nhấn để nhận key</h2>
+  <button onclick="getKey()">Nhận key</button>
+  <p id="key"></p>
+
+  <script>
+    function getKey(){
+      let keys = ["KEY-123", "KEY-456", "KEY-789"];
+      let random = keys[Math.floor(Math.random()*keys.length)];
+      document.getElementById("key").innerText = "Key của bạn: " + random;
+    }
+  </script>
+</body>
+</html>
