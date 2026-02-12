@@ -45,18 +45,19 @@
 
   <div class="box">
     <h2>🔑 Nhấn để nhận key</h2>
-    <button onclick="taoKey()">Nhận key</button>
+    <button id="btn" onclick="taoKey()">Nhận key</button>
     <div id="key"></div>
   </div>
 
   <script>
     function taoKey() {
-      const kyTu = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-      let key = "kpd_";
-      for (let i = 0; i < 6; i++) {
-        key += kyTu.charAt(Math.floor(Math.random() * kyTu.length));
-      }
-      document.getElementById("key").innerText = "Key của bạn: " + key;
+  const kyTu = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let key = "kpd_";
+  for (let i = 0; i < 10; i++) {
+    key += kyTu.charAt(Math.floor(Math.random() * kyTu.length));
+  }
+  document.getElementById("key").innerText = "Key của bạn: " + key;
+  document.getElementById("btn").disabled = true;
     }
   </script>
 
