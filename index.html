@@ -2,12 +2,12 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Gate Key</title>
+<title>Nhận key</title>
 <style>
 body{
   background:#0b0b0b;
   color:#00ffcc;
-  font-family:Arial, sans-serif;
+  font-family:Arial;
   display:flex;
   justify-content:center;
   align-items:center;
@@ -19,15 +19,29 @@ body{
   border-radius:10px;
   text-align:center;
   box-shadow:0 0 15px #00ffcc;
+  width:320px;
 }
 button{
-  padding:10px 20px;
+  padding:10px;
+  margin-top:10px;
+  width:100%;
   background:#00ffcc;
   border:none;
   border-radius:6px;
   cursor:pointer;
-  font-size:16px;
+  font-size:15px;
 }
+.link-btn{
+  display:block;
+  margin-top:8px;
+  padding:8px;
+  border-radius:6px;
+  text-decoration:none;
+  font-weight:bold;
+}
+.zalo{ background:#0068ff; color:white; }
+.youtube{ background:red; color:white; }
+.tiktok{ background:black; color:white; }
 </style>
 </head>
 <body>
@@ -35,15 +49,6 @@ button{
 <div class="box" id="box">Đang tải...</div>
 
 <script>
-/* ===== FIX 404 THIẾU DẤU / ===== */
-if (
-  location.pathname === "/gate-key" ||
-  location.pathname === "/gate-key/index.html"
-) {
-  location.replace("/gate-key/" + location.search);
-}
-
-/* ===== LOGIC GATE KEY ===== */
 const box = document.getElementById("box");
 const params = new URLSearchParams(location.search);
 const done = params.get("done");
@@ -52,38 +57,42 @@ function genKey(){
   return "kpd_" + Math.random().toString(36).substring(2,8).toUpperCase();
 }
 
-const savedKey = localStorage.getItem("user_key");
-const token = localStorage.getItem("passed_link");
+let key = localStorage.getItem("user_key");
 
-/* ĐÃ CÓ KEY → HIỆN LUÔN */
-if(savedKey){
+function showSocial(){
+  return `
+    <hr>
+    <a class="link-btn zalo" href="https://zalo.me/g/xxxxx" target="_blank">🔵 Vào nhóm Zalo</a>
+    <a class="link-btn youtube" href="https://youtube.com/@tenkenh" target="_blank">🔴 Đăng ký YouTube</a>
+    <a class="link-btn tiktok" href="https://tiktok.com/@tentiktok" target="_blank">⚫ Follow TikTok</a>
+  `;
+}
+
+if(key){
   box.innerHTML = `
     <h3>🔑 Key của bạn</h3>
-    <b>${savedKey}</b>
+    <b>${key}</b>
     <p>(1 người = 1 key)</p>
+    ${showSocial()}
   `;
 }
-
-/* VỪA VƯỢT LINK XONG */
-else if(done === "1" && token){
-  const newKey = genKey();
-  localStorage.setItem("user_key", newKey);
+else if(done === "1"){
+  key = genKey();
+  localStorage.setItem("user_key", key);
   box.innerHTML = `
     <h3>✅ Nhận key thành công</h3>
-    <b>${newKey}</b>
+    <b>${key}</b>
+    ${showSocial()}
   `;
 }
-
-/* CHƯA VƯỢT LINK */
 else{
   box.innerHTML = `
     <h3>🔒 Vượt link để nhận key</h3>
-    <button onclick="goLink()">Vượt link</button>
+    <button onclick="go()">Vượt link</button>
   `;
 }
 
-function goLink(){
-  localStorage.setItem("passed_link","ok");
+function go(){
   window.location.href = "https://yeulink.com/kephandienkey";
 }
 </script>
