@@ -5,10 +5,14 @@
 <title>Gate Key</title>
 
 <style>
-@keyframes glow {
-  0% { box-shadow: 0 0 15px #00ffcc; }
-  50% { box-shadow: 0 0 35px #00ffcc; }
-  100% { box-shadow: 0 0 15px #00ffcc; }
+@keyframes bgMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+@keyframes blink {
+  0%,100%{opacity:1}
+  50%{opacity:0}
 }
 
 body{
@@ -17,82 +21,120 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
-  font-family: Consolas, monospace;
+  font-family:Consolas, monospace;
+  background: linear-gradient(-45deg,#001a16,#002b25,#000);
+  background-size:400% 400%;
+  animation:bgMove 10s linear infinite alternate;
   color:#00ffcc;
-
-  /* NỀN CHẤT */
-  background:
-    radial-gradient(circle at top, #0f3b35, #020202 60%),
-    linear-gradient(135deg, #001f1a, #000);
 }
 
 .box{
-  width:90%;
+  width:92%;
   max-width:420px;
-  padding:30px;
-  border-radius:18px;
+  padding:35px;
+  border-radius:20px;
   text-align:center;
-
-  background:
-    linear-gradient(180deg, #0c2f2a, #020202);
+  background:rgba(0,0,0,0.75);
   border:2px solid #00ffcc;
-  animation: glow 2s infinite;
+  box-shadow:0 0 25px #00ffcc;
 }
 
 h3{
-  margin-bottom:20px;
   letter-spacing:2px;
+  min-height:28px;
+}
+
+.cursor{
+  display:inline-block;
+  animation:blink 1s infinite;
 }
 
 button{
   width:100%;
-  padding:14px;
+  padding:15px;
+  margin-top:15px;
   font-size:17px;
   font-weight:bold;
-  border-radius:10px;
   border:none;
+  border-radius:12px;
   cursor:pointer;
-  background:linear-gradient(90deg,#00ffcc,#00ffaa);
+  color:#000;
+  background:linear-gradient(90deg,#00ffcc,#00ffaa,#00ffcc);
+  background-size:200% 200%;
+  transition:0.3s;
+}
+
+button:hover{
+  background-position:100% 0;
+  transform:scale(1.05);
 }
 
 .link-btn{
   display:block;
   margin-top:12px;
   padding:12px;
-  border-radius:10px;
+  border-radius:12px;
   text-decoration:none;
   font-weight:bold;
+  transition:0.3s;
+}
+
+.link-btn:hover{
+  transform:scale(1.05);
 }
 
 .zalo{
   background:#0068ff;
   color:white;
+  box-shadow:0 0 15px #0068ff;
 }
+
 .youtube{
   background:#ff0000;
   color:white;
+  box-shadow:0 0 15px red;
 }
+
 .tiktok{
-  background:#000;
+  background:black;
   color:white;
   border:1px solid #00ffcc;
+  box-shadow:0 0 15px #00ffcc;
 }
 
 .key{
-  font-size:22px;
+  font-size:24px;
   margin:15px 0;
   color:#7CFF00;
-  text-shadow:0 0 10px #7CFF00;
+  text-shadow:0 0 15px #7CFF00;
 }
 </style>
 </head>
 
 <body>
 
-<div class="box" id="box">Loading...</div>
+<div class="box">
+  <h3 id="title"></h3>
+  <div id="content"></div>
+</div>
 
 <script>
-const box = document.getElementById("box");
+const titleText = "GET KEY – UNG HO TUI GOI MI DE 🍜";
+const titleEl = document.getElementById("title");
+
+let i = 0;
+function typeEffect(){
+  if(i < titleText.length){
+    titleEl.innerHTML = titleText.substring(0,i+1) + '<span class="cursor">_</span>';
+    i++;
+    setTimeout(typeEffect, 60);
+  } else {
+    titleEl.innerHTML = titleText + '<span class="cursor">_</span>';
+  }
+}
+typeEffect();
+
+const content = document.getElementById("content");
 const params = new URLSearchParams(location.search);
 const done = params.get("done");
 
@@ -102,17 +144,16 @@ function genKey(){
 
 function socials(){
   return `
-    <a class="link-btn zalo" href="https://zalo.me/g/xxxxx" target="_blank">🔵 Nhóm Zalo</a>
-    <a class="link-btn youtube" href="https://youtube.com/@tenkenh" target="_blank">🔴 YouTube</a>
-    <a class="link-btn tiktok" href="https://tiktok.com/@tentiktok" target="_blank">⚫ TikTok</a>
+    <a class="link-btn zalo" href="https://zalo.me/g/cocmne792" target="_blank">🔵 Nhóm Zalo</a>
+    <a class="link-btn youtube" href="https://youtube.com/@ghetnhanvatchinh?si=ZfPgvO2sKD8dL1i1" target="_blank">🔴 YouTube</a>
+    <a class="link-btn tiktok" href="https://tiktok.com/@ghetnhanvatchinhkk" target="_blank">⚫ TikTok</a>
   `;
 }
 
 let key = localStorage.getItem("user_key");
 
 if(key){
-  box.innerHTML = `
-    <h3>ACCESS GRANTED</h3>
+  content.innerHTML = `
     <div class="key">${key}</div>
     ${socials()}
   `;
@@ -120,16 +161,14 @@ if(key){
 else if(done === "1"){
   key = genKey();
   localStorage.setItem("user_key", key);
-  box.innerHTML = `
-    <h3>KEY GENERATED</h3>
+  content.innerHTML = `
     <div class="key">${key}</div>
     ${socials()}
   `;
 }
 else{
-  box.innerHTML = `
-    <h3>LOCKED SYSTEM</h3>
-    <button onclick="go()">VƯỢT LINK</button>
+  content.innerHTML = `
+    <button onclick="go()">GET KEY 🔑</button>
     ${socials()}
   `;
 }
